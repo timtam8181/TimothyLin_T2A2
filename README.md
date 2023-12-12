@@ -17,9 +17,34 @@ It is a problem that needs solving because as a tourist, visiting Melbourne for 
 - **Enhanced experience:** With a lack of information, people may not visit attractions that they would otherwise enjoy. Or, with the lack of planning, they may even run out of time to do things they would like to do. This can lead to deep regret and unfathomable sadness. This API alleviates these problems.
 ***
 ### R3 - Why have you chosen this database system. What are the drawbacks compared to others?
+To build this application, I have decided to use the PostgreSQL database system. Because PostgreSQL is a relational database, it has many benefits that assist with creating a travel planning API. It offers Data integrity and relationships, Complex queries and reporting, ACID Compliance and it has much support since inception amongst developers all over the world. It is well recognised as one of the most reliable database systems in the world. With that being said, there are some drawbacks comapred to other database systems.
 
+**PostgreSQL vs MongoDB**
+
+**Data Model:** Travel planning involves having structured data, with locations, restaurants, activities, hotels and schedules.PostgreSQL supports this feature with it's pre-defined schema. The downside of this is that there is less flexibility compared to MongoDB, which utilises the schema-less method. If this app required more dynamic data structures, then MongoDB would be more efficient.
+
+**Queries:** PostgreSQL has superior querying capabilities compared to MongoDB, which allows users in this API to complete complex queries to retrieve detailed information and find results based on more specific attributes. 
+
+**Consistency:** ACID(Atomicity, Consistency, Isolation, Durability) compliance ensures data consistency and integrity is followed. In managing travel plans, transactional integrity is very important and PostgreSQL offers this whereas MongoDB prioritises availibility and scalability over consistency.
+
+**Scaling:** As the Travel Itinerary API gains popularity and user numbers increase, MongoDB's ability to scale horizontally becomes advantageous. It can efficiently distribute data across multiple servers, ensuring seamless scalability. 
+
+In summary, I have chosen to use PostgreSQL because my travel API requires data that has a clear and fixed schema, is ACID compliant, can handle complex queries and relational features for travel planning and vertical scaling is sufficient for performance needs.
+
+**References:** 
+[https://www.sprinkledata.com/blogs/mongodb-vs-postgres#:~:text=Both%20MongoDB%20and%20PostgreSQL%20can,may%20require%20additional%20hardware%20resources.](https://www.sprinkledata.com/blogs/mongodb-vs-postgres#:~:text=Both%20MongoDB%20and%20PostgreSQL%20can,may%20require%20additional%20hardware%20resources.)
+
+[https://aws.amazon.com/compare/the-difference-between-mongodb-and-postgresql/#:~:text=MongoDB%20is%20a%20non%2Drelational,tables%20with%20rows%20and%20columns.](https://aws.amazon.com/compare/the-difference-between-mongodb-and-postgresql/#:~:text=MongoDB%20is%20a%20non%2Drelational,tables%20with%20rows%20and%20columns.)
 ***
 ### R4 - Identify and discuss the key functionalities and benefits of an ORM
+The purpose of ORM is to assist object-oriented progamming developers interact with relational databases. They are able to abstract the low-level languages such as SQL queries and developers can utilise high-level programming constructs that come in methods to interact with the database, this in turn helps to simplify CRUD operations. By having ORM align with the principles of object-oriented programming, developers can work with objects and classes directly. This combination makes the mapping of database tables to application entities easier to understand. It makes code more readable and and developers are able to understand the database interaction more clearly from a holistic point of view of the whole application.
+
+**Portability:** ORMs make it easier for developers to transition between different databases without needing to change too much code. This flexibility is useful because projects might need to change database systems down the line and with this measure, it alleviates concerns in regards to being locked into the database.
+**Simplified database access:** ORM allows more ease of use for developers to access the database. Using an ORM is easier to understand and developers can interact with the database by using objects and methods instead of needing more complex SQL syntax for queries. This saves developers time and effort when programming, leading to increase efficiency and quicker task completion. 
+**Automatic table creation:** Furthermore, ORM framerworks are able to create database tables using object classes instead of having to write SQL statements.
+**Consistency:** ORM, with creation of frameworks creates a standard method for developers interact with databases. This allows for a roadmap that creates simplified and efficient code that is more maintainable and errors are easier to diagnose and handle.   
+
+
 ***
 ### R5 - Document all endpoints for your API
 ***
