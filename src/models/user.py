@@ -12,7 +12,7 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
-
+     
     daily_plans = db.relationship('DailyPlan', back_populates='user')
 
 
