@@ -40,8 +40,11 @@ In summary, I have chosen to use PostgreSQL because my travel API requires data 
 The purpose of ORM is to assist object-oriented progamming developers interact with relational databases. They are able to abstract the low-level languages such as SQL queries and developers can utilise high-level programming constructs that come in methods to interact with the database, this in turn helps to simplify CRUD operations. By having ORM align with the principles of object-oriented programming, developers can work with objects and classes directly. This combination makes the mapping of database tables to application entities easier to understand. It makes code more readable and and developers are able to understand the database interaction more clearly from a holistic point of view of the whole application.
 
 **Portability:** ORMs make it easier for developers to transition between different databases without needing to change too much code. This flexibility is useful because projects might need to change database systems down the line and with this measure, it alleviates concerns in regards to being locked into the database.
+
 **Simplified database access:** ORM allows more ease of use for developers to access the database. Using an ORM is easier to understand and developers can interact with the database by using objects and methods instead of needing more complex SQL syntax for queries. This saves developers time and effort when programming, leading to increase efficiency and quicker task completion. 
+
 **Automatic table creation:** Furthermore, ORM framerworks are able to create database tables using object classes instead of having to write SQL statements.
+
 **Consistency:** ORM, with creation of frameworks creates a standard method for developers interact with databases. This allows for a roadmap that creates simplified and efficient code that is more maintainable and errors are easier to diagnose and handle.   
 
 
