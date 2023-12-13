@@ -11,6 +11,8 @@ class Location(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
 
+    restaurants = db.relationship('Restaurant', back_populates='location')
+
     # I don't think I need this code below
     # hotel_id = db.Column(db.Integer, db.ForeignKey('hotels.id'), nullable=False)
     # food_id = db.Column(db.Integer, db.ForeignKey('food.id'), nullable=False)

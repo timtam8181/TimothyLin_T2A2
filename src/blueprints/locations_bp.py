@@ -1,5 +1,4 @@
-from flask import Blueprint, request, abort
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import Blueprint, request
 from setup import db
 from models.location import LocationSchema, Location
 from auth import authorize

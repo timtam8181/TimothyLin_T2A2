@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from models.user import User, UserSchema
 from setup import bcrypt, db
 from sqlalchemy.exc import IntegrityError
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import create_access_token
 from datetime import timedelta
 
 users_bp = Blueprint("users", __name__, url_prefix="/users")

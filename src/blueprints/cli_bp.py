@@ -3,6 +3,7 @@ from setup import db, bcrypt
 from models.daily_plan import DailyPlan
 from models.user import User
 from models.location import Location
+from models.restaurant import Restaurant
 
 db_commands = Blueprint('db', __name__)
 
@@ -30,6 +31,23 @@ def db_seed():
     ]
 
     db.session.add_all(locations)
+
+    restaurants = [
+        Restaurant(
+            cuisine="maccas",
+            price="expensive",
+            rating="good",
+            location_id=1
+        ),
+        Restaurant(
+            cuisine="KFC",
+            price="Fair",
+            rating="good",
+            location_id=2
+        )
+    ]
+
+    db.session.add_all(restaurants)
 
     users = [
         User(
