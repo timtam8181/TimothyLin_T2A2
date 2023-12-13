@@ -12,7 +12,7 @@ def all_restaurants():
     restaurants = db.session.scalars(stmt).all()
     return RestaurantSchema(many=True).dump(restaurants)
 
-# Get one comment
+# Get one restaurant
 @restaurants_bp.route('/<int:id>')
 def one_restaurant(id):
     stmt = db.select(Restaurant).filter_by(id=id)
