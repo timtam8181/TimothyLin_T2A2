@@ -2,7 +2,7 @@ from flask import Blueprint
 from setup import db, bcrypt
 from models.daily_plan import DailyPlan
 from models.user import User
-from datetime import date
+from models.location import Location
 
 db_commands = Blueprint('db', __name__)
 
@@ -12,9 +12,25 @@ def db_create():
     db.create_all()
     print("Created tables")
 
-
 @db_commands.cli.command("seed")
 def db_seed():
+    locations = [
+        Location(
+            name="Melbourne",
+            description="Cultural hub with diverse architecture, culinary delights, and vibrant atmosphere.",
+        ),
+        Location(
+            name="Geelong",
+            description="Coastal city near Melbourne, known for waterfront, gardens, and industry.",
+        ),
+        Location(
+            name="Ballarat",
+            description="Historic gold rush city with architecture, gardens, and cultural attractions.",
+        )
+    ]
+
+    db.session.add_all(locations)
+
     users = [
         User(
             name="Tim1",

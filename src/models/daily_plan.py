@@ -1,7 +1,6 @@
 from setup import db, ma
 from datetime import datetime
 from marshmallow import fields
-from marshmallow.validate import OneOf, Regexp, Length, And
 
 class DailyPlan(db.Model):
     __tablename__ = "daily_plans"
