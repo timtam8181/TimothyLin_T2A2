@@ -40,19 +40,19 @@ def db_seed():
         DailyPlan(
             restaurant="Maccas",
             hotel="Crown",
-            attractions="Melbourne Zoo",
+            attraction="Melbourne Zoo",
             user_id=2
         ),
         DailyPlan(
             restaurant="KFC",
             hotel="HolidayInn",
-            attractions="Melbourne Museum",
+            attraction="Melbourne Museum",
             user_id=2
         ),
         DailyPlan(
             restaurant="Subway",
             hotel="Hilton",
-            attractions="Melbourne Aquarium",
+            attraction="Melbourne Aquarium",
             user_id=2
         )
     ]

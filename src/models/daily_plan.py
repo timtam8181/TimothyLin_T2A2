@@ -10,7 +10,7 @@ class DailyPlan(db.Model):
 
     restaurant = db.Column(db.String())
     hotel = db.Column(db.String())
-    attractions = db.Column(db.String())
+    attraction = db.Column(db.String())
     date = db.Column(db.Date, default=datetime.now().strftime('%Y-%m-%d'))
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -22,4 +22,4 @@ class DailyPlanSchema(ma.Schema):
     user = fields.Nested('UserSchema', only=['name'])
 
     class Meta:
-        fields = ("id", "restaurant", "hotel", "attractions", "date", "user_id" "user")
+        fields = ("id", "restaurant", "hotel", "attraction", "date", "user_id", "user")

@@ -1,6 +1,7 @@
 from setup import db, ma
 from marshmallow import fields
 from marshmallow.validate import Length
+from models.daily_plan import DailyPlanSchema
 
 
 class User(db.Model):
@@ -19,6 +20,9 @@ class User(db.Model):
 class UserSchema(ma.Schema):
     email = fields.Email(required=True)
     password = fields.String(required=True, validate=Length(min=10, error='Password must be at least 10 characters'))
+    daily_plans = fields.Nested(DailyPlanSchema, many=True, exclude=['user'])
 
     class Meta:
-        fields = ("id", "name", "email", "password", "is_admin")
+        model = User
+        fields = ("id", "name", "email", "password", "is_admin", "daily_plans")        
+
