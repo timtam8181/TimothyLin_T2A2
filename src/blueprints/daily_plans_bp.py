@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from setup import db
 from models.daily_plan import DailyPlanSchema, DailyPlan
 from auth import authorize
+from flask_jwt_extended import jwt_required
 
 daily_plans_bp = Blueprint('daily_plans', __name__, url_prefix='/daily_plans')
 

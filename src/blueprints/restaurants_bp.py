@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from setup import db
 from models.restaurant import RestaurantSchema, Restaurant
 from models.location import Location
+from auth import authorize
 
 restaurants_bp = Blueprint("restaurant", __name__, url_prefix="/restaurants")
 
@@ -26,6 +27,7 @@ def one_restaurant(id):
 # Create a new restaurant
 @restaurants_bp.route("/", methods=["POST"])
 def create_restaurant():
+    authorize()
     try:
         restaurant_info = RestaurantSchema().load(request.json)
         location_id = restaurant_info.get("location_id")
@@ -59,6 +61,7 @@ def create_restaurant():
 # Update a restaurant
 @restaurants_bp.route("/<int:restaurant_id>", methods=["PUT", "PATCH"])
 def update_restaurant(restaurant_id):
+    authorize()
     restaurant_info = RestaurantSchema.load(request.json)
     stmt = db.select(Restaurant).filter_by(id=restaurant_id) 
     restaurant = db.session.scalar(stmt)
@@ -75,6 +78,7 @@ def update_restaurant(restaurant_id):
 # Delete a restaurant
 @restaurants_bp.route("/<int:restaurant_id>", methods=["DELETE"])
 def delete_restaurant(restaurant_id):
+    authorize()
     stmt = db.select(Restaurant).filter_by(id=restaurant_id)  
     restaurant = db.session.scalar(stmt)
     if restaurant:

@@ -3,7 +3,10 @@ from setup import db
 from models.location import LocationSchema, Location
 from auth import authorize
 
+
 locations_bp = Blueprint('locations', __name__, url_prefix='/locations')
+
+ALLOWED_CITIES = ["Melbourne", "Geelong", "Ballarat"]
 
 # Get all locations
 @locations_bp.route("/")
@@ -25,7 +28,13 @@ def one_location(id):
 # Create a new location
 @locations_bp.route('/', methods=['POST'])
 def create_location():
+    authorize()
     location_details = LocationSchema(exclude=['id']).load(request.json)
+
+    # Check if the provided city is allowed
+    if location_details['name'] not in ALLOWED_CITIES:
+        return {'error': 'Invalid city, choose from "Melbourne", "Geelong", "Ballarat"'}, 400    
+
     location = Location(
         name = location_details['name'],
         description = location_details.get('description')
@@ -37,20 +46,27 @@ def create_location():
 # Update a location
 @locations_bp.route('/<int:id>', methods=['PUT', 'PATCH'])
 def update_location(id):
+    authorize()
     location_info = LocationSchema(exclude=['id']).load(request.json)
     stmt = db.select(Location).filter_by(id=id)
     location = db.session.scalar(stmt)
-    if location:
-        location.name = location_info.get('name', location.name)
-        location.description = location_info.get('description', location.description)
-        db.session.commit()
-        return LocationSchema().dump(location)
-    else:
-        return {'error': 'Location can not be found'}, 404
+    if not location:
+        return {'error': 'Location not found'}, 404
+
+    # Check if the provided city is allowed
+    new_city = location_info.get('name', location.name)
+    if new_city not in ALLOWED_CITIES:
+        return {'error': 'Invalid city, choose from "Melbourne", "Geelong", "Ballarat"'}, 400
+
+    location.name = new_city
+    location.description = location_info.get('description', location.description)
+    db.session.commit()
+    return LocationSchema().dump(location)
 
 # Delete a location
 @locations_bp.route('/<int:id>', methods=['DELETE'])
 def delete_location(id):
+    authorize()
     stmt = db.select(Location).filter_by(id=id)
     location = db.session.scalar(stmt)
     if location:

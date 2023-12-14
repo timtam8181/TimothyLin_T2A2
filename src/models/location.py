@@ -1,7 +1,7 @@
 from setup import db, ma
-# from models.hotel import Hotel
-# from models.restaurant import Food
-# from models.attraction import Attraction
+from wtforms import ValidationError
+
+ALLOWED_CITIES = ["Melbourne", "Geelong", "Ballarat"]
 
 class Location(db.Model):
     __tablename__ = "locations"
@@ -12,16 +12,12 @@ class Location(db.Model):
     description = db.Column(db.Text)
 
     restaurants = db.relationship('Restaurant', back_populates='location')
-
-    # I don't think I need this code below
-    # hotel_id = db.Column(db.Integer, db.ForeignKey('hotels.id'), nullable=False)
-    # food_id = db.Column(db.Integer, db.ForeignKey('food.id'), nullable=False)
-    # attraction_id = db.Column(db.Integer, db.ForeignKey('attraction.id'), nullable=False)
-
-    # hotels = db.relationship('Hotel', back_populates='hotel')
-    # foods = db.relationship('Food', back_populates='food')
-    # attractions = db.relationship('Attraction', back_populates='attraction')
+    hotels = db.relationship('Hotel', back_populates='location')
+    attractions = db.relationship('Attraction', back_populates='location')
 
 class LocationSchema(ma.Schema):
+    def validate_name(self, value):
+        if value not in ALLOWED_CITIES:
+            raise ValidationError(f"Invalid city: {value}. Allowed cities are {', '.join(ALLOWED_CITIES)}.")
     class Meta:
         fields = ("id", "name", "description")

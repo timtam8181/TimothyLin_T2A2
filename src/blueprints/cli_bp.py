@@ -4,6 +4,9 @@ from models.daily_plan import DailyPlan
 from models.user import User
 from models.location import Location
 from models.restaurant import Restaurant
+from models.hotel import Hotel
+from models.attraction import Attraction
+
 
 db_commands = Blueprint('db', __name__)
 
@@ -31,23 +34,6 @@ def db_seed():
     ]
 
     db.session.add_all(locations)
-
-    restaurants = [
-        Restaurant(
-            cuisine="maccas",
-            price="expensive",
-            rating="good",
-            location_id=1
-        ),
-        Restaurant(
-            cuisine="KFC",
-            price="Fair",
-            rating="good",
-            location_id=2
-        )
-    ]
-
-    db.session.add_all(restaurants)
 
     users = [
         User(
@@ -92,4 +78,55 @@ def db_seed():
     ]
 
     db.session.add_all(daily_plans)
+
+    restaurants = [
+        Restaurant(
+            cuisine="maccas",
+            price="expensive",
+            rating="good",
+            location_id=1
+        ),
+        Restaurant(
+            cuisine="KFC",
+            price="Fair",
+            rating="good",
+            location_id=2
+        )
+    ]
+    db.session.add_all(restaurants)
+
+    hotels = [
+        Hotel(
+            name="crown",
+            description="Renowned for its luxury accommodation, entertainment, award-winning restaurants, world-class casino, conference centre and retail precinct",
+            price="expensive",
+            location_id=1
+        ),
+        Hotel(
+            name="quest",
+            description="Perfect for a relaxing getaway right next to the beach",
+            price="fair",
+            location_id=2
+        )
+    ]
+    db.session.add_all(hotels)
+
+    attractions = [
+        Attraction(
+            name="royal botanic gardens",
+            description="a beautiful touch of nature in Melbourne",
+            price="cheap",
+            location_id=1
+        ),
+        Attraction(
+            name="geelong galley",
+            description="Art hub with diverse exhibitions, fostering cultural engagement.",
+            price="fair",
+            location_id=2
+        )
+    ]
+    db.session.add_all(attractions)
+
+
+
     db.session.commit()

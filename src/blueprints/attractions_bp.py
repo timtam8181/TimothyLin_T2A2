@@ -2,11 +2,14 @@ from flask import Blueprint, request
 from setup import db
 from models.attraction import AttractionSchema, Attraction
 from models.location import Location
+from flask_jwt_extended import jwt_required
+from auth import authorize
 
 attractions_bp = Blueprint("attraction", __name__, url_prefix="/attractions")
 
 # Get all attractions
 @attractions_bp.route("/")
+@jwt_required()
 def all_attractions():
     stmt = db.select(Attraction)
     attractions = db.session.scalars(stmt).all()
@@ -14,6 +17,7 @@ def all_attractions():
 
 # Get one attraction
 @attractions_bp.route('/<int:id>')
+@jwt_required()
 def one_attraction(id):
     stmt = db.select(attraction).filter_by(id=id)
     attraction = db.session.scalar(stmt)
@@ -25,7 +29,9 @@ def one_attraction(id):
 
 # Create a new attraction
 @attractions_bp.route("/", methods=["POST"])
+@jwt_required()
 def create_attraction():
+    authorize()
     try:
         attraction_info = AttractionSchema().load(request.json)
         location_id = attraction_info.get("location_id")
@@ -38,7 +44,7 @@ def create_attraction():
         if not Location.query.get(location_id):
             return {"error": f"Location with ID {location_id} not found"}, 404
         
-        attraction = attraction(
+        attraction = Attraction(
             cuisine=attraction_info["cuisine"],
             price=attraction_info["price"],
             rating=attraction_info["rating"],
@@ -58,7 +64,9 @@ def create_attraction():
 
 # Update a attraction
 @attractions_bp.route("/<int:attraction_id>", methods=["PUT", "PATCH"])
+@jwt_required()
 def update_attraction(attraction_id):
+    authorize()
     attraction_info = AttractionSchema.load(request.json)
     stmt = db.select(attraction).filter_by(id=attraction_id) 
     attraction = db.session.scalar(stmt)
@@ -74,7 +82,9 @@ def update_attraction(attraction_id):
 
 # Delete a attraction
 @attractions_bp.route("/<int:attraction_id>", methods=["DELETE"])
+@jwt_required()
 def delete_attraction(attraction_id):
+    authorize()
     stmt = db.select(attraction).filter_by(id=attraction_id)  
     attraction = db.session.scalar(stmt)
     if attraction:

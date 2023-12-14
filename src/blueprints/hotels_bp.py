@@ -2,11 +2,15 @@ from flask import Blueprint, request
 from setup import db
 from models.hotel import HotelSchema, Hotel
 from models.location import Location
+from flask_jwt_extended import jwt_required
+from auth import authorize
+
 
 hotels_bp = Blueprint("hotel", __name__, url_prefix="/hotels")
 
 # Get all hotels
 @hotels_bp.route("/")
+@jwt_required()
 def all_hotels():
     stmt = db.select(Hotel)
     hotels = db.session.scalars(stmt).all()
@@ -14,6 +18,7 @@ def all_hotels():
 
 # Get one hotel
 @hotels_bp.route('/<int:id>')
+@jwt_required()
 def one_hotel(id):
     stmt = db.select(Hotel).filter_by(id=id)
     hotel = db.session.scalar(stmt)
@@ -25,7 +30,9 @@ def one_hotel(id):
 
 # Create a new hotel
 @hotels_bp.route("/", methods=["POST"])
+@jwt_required()
 def create_hotel():
+    authorize()
     try:
         hotel_info = HotelSchema().load(request.json)
         location_id = hotel_info.get("location_id")
@@ -58,7 +65,9 @@ def create_hotel():
 
 # Update a hotel
 @hotels_bp.route("/<int:hotel_id>", methods=["PUT", "PATCH"])
+@jwt_required()
 def update_hotel(hotel_id):
+    authorize()
     hotel_info = HotelSchema.load(request.json)
     stmt = db.select(Hotel).filter_by(id=hotel_id) 
     hotel = db.session.scalar(stmt)
@@ -74,7 +83,9 @@ def update_hotel(hotel_id):
 
 # Delete a hotel
 @hotels_bp.route("/<int:hotel_id>", methods=["DELETE"])
+@jwt_required()
 def delete_hotel(hotel_id):
+    authorize()
     stmt = db.select(Hotel).filter_by(id=hotel_id)  
     hotel = db.session.scalar(stmt)
     if hotel:

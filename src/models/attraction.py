@@ -13,7 +13,7 @@ class Attraction(db.Model):
    
     # Define ForeignKey with constraints
     location_id = db.Column(db.Integer, nullable=False)
-    location = db.relationship('Location', back_populates='restaurants')
+    location = db.relationship('Location', back_populates='attractions')
 
     # Add ForeignKeyConstraint
     __table_args__ = (ForeignKeyConstraint(['location_id'], ['locations.id']),)
