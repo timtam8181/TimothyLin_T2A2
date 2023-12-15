@@ -1,6 +1,7 @@
 # TimothyLin_T2A2
 ***
 [Timothy Lin Github T2A2](https://github.com/timtam8181/TimothyLin_T2A2 "Visit Timothy's Github")
+[Timothy Lin Trello T2A2](https://trello.com/b/QE54OS1q/timothylint2a2 "Visit Timothy's Trello")
 ***
 ## Installment steps:
 
@@ -47,16 +48,145 @@ The purpose of ORM is to assist object-oriented progamming developers interact w
 
 **Consistency:** ORM, with creation of frameworks creates a standard method for developers interact with databases. This allows for a roadmap that creates simplified and efficient code that is more maintainable and errors are easier to diagnose and handle.   
 
-
 ***
 ### R5 - Document all endpoints for your API
+
 ***
 ### R6 - An ERD for your app
+
 ***
 ### R7 - Detail any third party services that your app will use
+### Flask
+- Flask is a Python web framework known for its simplicity and flexibility. It facilitates fast web application development through a micro-webframework approach,
+offering essential components to enable developers to do this. Flask is widely used for building web applications and APIs due to its ease of use and scalability.
+### PostgreSQL
+- PostgreSQL is an open-source relational database management system, known for efficient management of details queries and substantial datasets. It implements ACID compliance, it has widespread support and use across divers applications as it has compatibility with different data types.
+### SQLAlchemy
+- SQLAlchemy is a Python SQL library, it facilities the integration of Python objects with relational database tables. Supporting diverse database engines, it incorporates a Object-Relational Mapping system. This library streamlines interactions with databases, enhances code efficiency, and enables developers to work using Python conventions.
+### Marshmallow
+- Marshmallow is a Python library that makes it easy to change complex data types to and from Python data types. It makes it more convenient to serialise and deserialise data. It is widely employed in web APIs to validate, parse, and format data which ensures smooth interactions with databases and efficient response handling.
+### Psycopg2
+- Psycopg2 is a tool that enables Python code to interact with PostgreSQL databases. Python applications can then connect and share information with PostgreSQL databases, which can handle data tasks. 
+### Bcrypt
+- Bcrypt is a guard for passwords on websites. It turns stored passwords into a random code that prevents them from being used by unauthorised parties. They are a good layer of protection against brute force attacks.
+### JWT Manager 
+- JWT manager handles JSON web tokens in web applications. It acts as a virtual ID card for web users, ensuring their identity is verified and granting access for a limited time.
+
 ***
 ### R8 - Describe your projects models in terms of the relationships they have with each other
+### User
+- Represents a user in the system. Users can create multiple daily plans. The relationship is made through the 'daily_plans' attribute, which represents a one-to-many relationships between users and their daily plans.
+```
+class User(db.Model):
+    __tablename__ = "users"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String, nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
+     
+    daily_plans = db.relationship('DailyPlan', back_populates='user')
+```
+
+### Daily Plan
+- Represents a daily plan created by a user. It holds references to selected restaurants, hotels, and attractions. The association with the 'User' model is established through the 'user' attribute, and has a many-to-one relationship. Each user can have many different daily plans, but each daily plan must belong to only one user.
+```
+class DailyPlan(db.Model):
+    __tablename__ = "daily_plans"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    restaurant = db.Column(db.String())
+    hotel = db.Column(db.String())
+    attraction = db.Column(db.String())
+    date = db.Column(db.Date, default=datetime.now().strftime('%Y-%m-%d'))
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+
+    user = db.relationship('User', back_populates='daily_plans')
+```
+
+### Location
+- Represents geographical locations to visit. It is a central place for different types of attractions, hotels and restaurants. The model has three one-to-many relationships. A location can have multiple restaurants, hotels and attractions.
+```
+class Location(db.Model):
+    __tablename__ = "locations"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text)
+
+    restaurants = db.relationship('Restaurant', back_populates='location')
+    hotels = db.relationship('Hotel', back_populates='location')
+    attractions = db.relationship('Attraction', back_populates='location')
+```
+
+### Restaurant
+- Represents information about a restaurant. Restaurants are associated with a specific location. This is achieved through a many-to-one relationship with the 'location' attribute, indicating the that many restaurants can belong to a single location.
+```
+class Restaurant(db.Model):
+    __tablename__ = "restaurants"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    cuisine = db.Column(db.String, nullable=False)
+    price = db.Column(db.String)
+    rating = db.Column(db.String, default=[])
+   
+    # Define ForeignKey with constraints
+    location_id = db.Column(db.Integer, nullable=False)
+    location = db.relationship('Location', back_populates='restaurants')
+
+    # Add ForeignKeyConstraint
+    __table_args__ = (ForeignKeyConstraint(['location_id'], ['locations.id']),)
+```
+### Hotel
+- Stores information about hotels. Hotels are also related with a specific location in a many-to-one relationship. Each location can have many hotels associated with it.
+```
+class Hotel(db.Model):
+    __tablename__ = "hotels"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String)
+    price = db.Column(db.String, default=[])
+   
+    # Define ForeignKey with constraints
+    location_id = db.Column(db.Integer, nullable=False)
+    location = db.relationship('Location', back_populates='hotels')
+
+    # Add ForeignKeyConstraint
+    __table_args__ = (ForeignKeyConstraint(['location_id'], ['locations.id']),)
+```
+### Attraction 
+- Stores details about attractions. Similar to hotels and restaurants, each attraction is associated with a specific location. Also through a many-to-one relationship established through the 'location' attribute.
+```
+class Attraction(db.Model):
+    __tablename__ = "attractions"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String)
+    price = db.Column(db.String, default=[])
+   
+    # Define ForeignKey with constraints
+    location_id = db.Column(db.Integer, nullable=False)
+    location = db.relationship('Location', back_populates='attractions')
+
+    # Add ForeignKeyConstraint
+    __table_args__ = (ForeignKeyConstraint(['location_id'], ['locations.id']),)
+```
+
+Together, these models represent a relational database where each entity has a specific role, and associations allow for efficient and easy navigation between them. Understanding these associations is paramount for creating proper queries and handling data within. 
 ***
 ### R9 - Discuss the database relations to be implemented in your application
+
 ***
 ### R10 - Describe the way tasks are allocated and tracked in your project
+
