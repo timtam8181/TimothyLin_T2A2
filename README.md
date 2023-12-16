@@ -53,7 +53,7 @@ The purpose of ORM is to assist object-oriented progamming developers interact w
 
 ***
 ### R6 - An ERD for your app
-
+![ERD](docs/ERD.png)  
 ***
 ### R7 - Detail any third party services that your app will use
 ### Flask

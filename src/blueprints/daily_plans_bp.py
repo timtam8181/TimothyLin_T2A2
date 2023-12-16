@@ -16,7 +16,7 @@ def all_daily_plans():
     return DailyPlanSchema(many=True, exclude=['user.daily_plans']).dump(daily_plans)
 
 # Get one specific daily plan
-@daily_plans_bp.route('/<int:id>')
+@daily_plans_bp.route('/<int:id>', methods=['GET'])
 @jwt_required()
 def a_daily_plan(id):
     stmt = db.select(DailyPlan).filter_by(id=id) 
@@ -68,6 +68,6 @@ def delete_daily_plan(id):
         authorize(daily_plan.user_id)
         db.session.delete(daily_plan)
         db.session.commit()
-        return {}, 200
+        return {"Deleted!"}, 200
     else:
         return {'error': 'Daily Plan could not be found!'}, 404
