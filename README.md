@@ -186,7 +186,16 @@ class Attraction(db.Model):
 Together, these models represent a relational database where each entity has a specific role, and associations allow for efficient and easy navigation between them. Understanding these associations is paramount for creating proper queries and handling data within. 
 ***
 ### R9 - Discuss the database relations to be implemented in your application
+- **In my application, I have created a Travel Plans database which has six different tables. My tables are Users, Daily Plans, Locations, Restaurants, Hotels and Attractions. I have used PostgreSQL because a relational database is required for this application as the tables need to connect with each other to create the features of the app.
 
-***
+- There is a One-to-many relationship with User to Daily Plans. Every User is allowed to have multiple daily plans but each Daily Plan belongs to only one User. This is implemented via the 'user_id' foreign key in the 'DailyPlan' model, and this is referencing the primary key in the 'User' model. The solid line in the ERD connecting the 'User' entity and the 'DailyPlan' entity, shows the one-to-many relationship. The arrow points from 'User' to 'DailyPlan' to signify the direction of the relationship.
+
+- In turn, there is a Many-to-one relationship between Daily Plans to User, and this is represented with the user attribute in the 'DailyPlan' model. Which shows which user the daily plan belongs to.
+
+- Also, I have three One-to-many relationships with Location to Restaurants, Hotels and Attractions. The 'restaurants', 'hotels', 'attractions' attributes in the 'Location' model represent the respective details that belong to each Location for users to select from if they would like. All three of the tables have the foreign key 'location_id' referencing the primary key 'id' in the 'Location' model. The 'Location' entity is connected to 'Restaurant', 'Hotel', and 'Attraction' entities with solid lines, illustrating one-to-many relationships. Arrows points from 'Location' to each of these entities.
+
+- Lastly, There is a Many-to-one relationship where many restaurants, hotels and attractions can belong to one location.
+
+***  
 ### R10 - Describe the way tasks are allocated and tracked in your project
 
