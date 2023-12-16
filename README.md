@@ -198,4 +198,17 @@ Together, these models represent a relational database where each entity has a s
 
 ***  
 ### R10 - Describe the way tasks are allocated and tracked in your project
+ - In my project, I implemented a system to allocate tasks and track my progress on them using Trello, a projet management tool. I utilised the functions trello offers by organising tasks onto cards, providing me a visual overview of what I had to do, and the progress of the tasks. I was also able to set priorities and due dates for each task which gave me a sense of urgency and accountability. Each board had an aspect of the project attached to it, whether it was code related, or documentation related.
 
+ - Also, to maintain communication with my peers and also to further uphold accountability, I participated in daily "Stand-Ups" over the internet through discord. I shared any progress I had made for the day, any struggles I encountered, what I would do in the next 24 hours, and what I had learnt about for the day. Additionally, the shared insights from other people doing this too assisted me in working through the project.
+
+ - Overall, the combination of Trello and daily stand ups made for a very successful project completed that was efficient and straightforward.
+
+![Stand up day 1](docs/standup1.png)
+![Stand up day 2](docs/standup2.png)
+![Stand up day 3](docs/standup3.png)
+![Stand up day 4](docs/standup4.png)
+![Trello day 1](docs/Trello1.png)
+![Trello day 2](docs/Trello2.png)
+![Trello day 3](docs/Trello3.png)
+![Trello day 4](docs/Trello4.png)

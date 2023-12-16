@@ -45,14 +45,14 @@ def create_daily_plan():
 @daily_plans_bp.route('/<int:id>', methods=['PUT', 'PATCH'])
 @jwt_required()
 def update_daily_plan(id):
-    daily_plan_details = DailyPlanSchema(exclude=['id', 'date_created']).load(request.json)
+    daily_plan_details = DailyPlanSchema(exclude=['id', 'date']).load(request.json)
     stmt = db.select(DailyPlan).filter_by(id=id) 
     daily_plan = db.session.scalar(stmt)
     if daily_plan:
         authorize(daily_plan.user_id)
         daily_plan.restaurant = daily_plan_details.get('restaurant', daily_plan.restaurant)
         daily_plan.hotel = daily_plan_details.get('hotel', daily_plan.hotel)
-        daily_plan.attraction = daily_plan_details.get('attraction', daily_plan.attractions)
+        daily_plan.attraction = daily_plan_details.get('attraction', daily_plan.attraction)
         db.session.commit()
         return DailyPlanSchema().dump(daily_plan)
     else:
@@ -68,6 +68,6 @@ def delete_daily_plan(id):
         authorize(daily_plan.user_id)
         db.session.delete(daily_plan)
         db.session.commit()
-        return {"Deleted!"}, 200
+        return {"message": "Daily Plan deleted!"}, 200
     else:
         return {'error': 'Daily Plan could not be found!'}, 404

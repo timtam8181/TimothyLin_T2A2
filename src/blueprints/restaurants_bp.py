@@ -3,11 +3,13 @@ from setup import db
 from models.restaurant import RestaurantSchema, Restaurant
 from models.location import Location
 from auth import authorize
+from flask_jwt_extended import jwt_required
 
 restaurants_bp = Blueprint("restaurant", __name__, url_prefix="/restaurants")
 
 # Get all restaurants
 @restaurants_bp.route("/")
+@jwt_required()
 def all_restaurants():
     stmt = db.select(Restaurant)
     restaurants = db.session.scalars(stmt).all()
@@ -15,6 +17,7 @@ def all_restaurants():
 
 # Get one restaurant
 @restaurants_bp.route('/<int:id>')
+@jwt_required()
 def one_restaurant(id):
     stmt = db.select(Restaurant).filter_by(id=id)
     restaurant = db.session.scalar(stmt)
@@ -26,6 +29,7 @@ def one_restaurant(id):
 
 # Create a new restaurant
 @restaurants_bp.route("/", methods=["POST"])
+@jwt_required()
 def create_restaurant():
     authorize()
     try:
@@ -60,6 +64,7 @@ def create_restaurant():
 
 # Update a restaurant
 @restaurants_bp.route("/<int:restaurant_id>", methods=["PUT", "PATCH"])
+@jwt_required()
 def update_restaurant(restaurant_id):
     authorize()
     restaurant_info = RestaurantSchema.load(request.json)
@@ -77,6 +82,7 @@ def update_restaurant(restaurant_id):
 
 # Delete a restaurant
 @restaurants_bp.route("/<int:restaurant_id>", methods=["DELETE"])
+@jwt_required()
 def delete_restaurant(restaurant_id):
     authorize()
     stmt = db.select(Restaurant).filter_by(id=restaurant_id)  

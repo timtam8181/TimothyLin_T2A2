@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from setup import db
 from models.location import LocationSchema, Location
 from auth import authorize
-
+from flask_jwt_extended import jwt_required
 
 locations_bp = Blueprint('locations', __name__, url_prefix='/locations')
 
@@ -10,6 +10,7 @@ ALLOWED_CITIES = ["Melbourne", "Geelong", "Ballarat"]
 
 # Get all locations
 @locations_bp.route("/")
+@jwt_required()
 def all_locations():
     stmt = db.select(Location)  
     locations = db.session.scalars(stmt).all()
@@ -17,6 +18,7 @@ def all_locations():
 
 # Get one location
 @locations_bp.route('/<int:id>')
+@jwt_required()
 def one_location(id):
     stmt = db.select(Location).filter_by(id=id)
     location = db.session.scalar(stmt)
@@ -27,6 +29,7 @@ def one_location(id):
 
 # Create a new location
 @locations_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_location():
     authorize()
     location_details = LocationSchema(exclude=['id']).load(request.json)
@@ -45,6 +48,7 @@ def create_location():
 
 # Update a location
 @locations_bp.route('/<int:id>', methods=['PUT', 'PATCH'])
+@jwt_required()
 def update_location(id):
     authorize()
     location_info = LocationSchema(exclude=['id']).load(request.json)
@@ -65,6 +69,7 @@ def update_location(id):
 
 # Delete a location
 @locations_bp.route('/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_location(id):
     authorize()
     stmt = db.select(Location).filter_by(id=id)
