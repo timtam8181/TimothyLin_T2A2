@@ -2,8 +2,6 @@
 ***
 [Timothy Lin Github T2A2](https://github.com/timtam8181/TimothyLin_T2A2 "Visit Timothy's Github")
 [Timothy Lin Trello T2A2](https://trello.com/b/QE54OS1q/timothylint2a2 "Visit Timothy's Trello")
-***
-## Installment steps:
 
 ***
 ### R1 - Identification of the problem you are trying to solve by building this particular app.
@@ -50,7 +48,61 @@ The purpose of ORM is to assist object-oriented progamming developers interact w
 
 ***
 ### R5 - Document all endpoints for your API
-
+#### 1. /users/register
+- HTTP Request Verb: POST
+- Required data: name, email, password
+- Expected response data: Expected "201 Created"
+- Description: Allows users to register 
+![users/register](docs/users.register.png)
+***
+#### 2. /users/login
+- HTTP Request Verb: POST
+- Required data: email, password
+- Expected response data: Expected "200 OK"
+- Description: Allows users to login and generates a JWT token for authorisation so user can utilise the application.
+![users/login](docs/users.login.png)
+***
+#### 3. /daily_plans/
+- HTTP Request Verb: POST
+- Required data: restaurant, hotel, attraction, Valid JWT token
+- Expected response data: Expected "201 Created"
+- Description: Allows users to create a daily plan to schedule their travel.
+![dailyplans/create](docs/dailyplan.create.png)
+***
+#### 4. /daily_plans/
+- HTTP Request Verb: GET
+- Required data: Valid JWT token
+- Expected response data: Expected "201 Created"
+- Description: Allows users to retreieve all daily plans of their travel.
+![dailyplans/retrieve](docs/dailyplans.retrieve.png)
+***
+#### 5. /daily_plans/<int:id>/
+- HTTP Request Verb: PUT, PATCH
+- Required data: restaurant, hotel, attraction, Valid JWT token
+- Expected response data: Expected "200 OK"
+- Description: Allows users to update a daily plan to schedule their travel.
+![dailyplans/update](docs/dailyplan.update.png)
+***
+#### 6. /daily_plans/<int:id>/
+- HTTP Request Verb: GET
+- Required data: Valid JWT token
+- Expected response data: Expected "201 Created"
+- Description: Allows users to retreieve one daily plan of their travel.
+![dailyplan/retrieve](docs/dailyplan.retrieve.png)
+***
+#### 6. /daily_plans/<int:id>/
+- HTTP Request Verb: DELETE
+- Required data: Valid JWT token
+- Expected response data: Expected "200 OK"
+- Description: Allows users to delete one daily plan of their travel.
+![dailyplans/delete](docs/dailyplan.delete.png)
+***
+#### 7. /locations/
+- HTTP Request Verb: GET
+- Required data: Valid JWT token
+- Expected response data: Expected "200 OK"
+- Description: Allows users to retrieve a list of locations to travel to.
+![locations/retrieve](docs/locations.retrieve.png)
 ***
 ### R6 - An ERD for your app
 ![ERD](docs/ERD.png)  
